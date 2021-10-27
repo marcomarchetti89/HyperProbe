@@ -1,5 +1,8 @@
 // Dichiarazione funzioni di IO
 
+#ifndef MYIO
+#define MYIO
+
 /* Inizializza la seriale*/
 void serial_setup(int baud);
 
@@ -10,3 +13,4 @@ void read_command(t_cmd* command_ptr);
 //
 void write_command(t_cmd* command_ptr);
 
+#endif

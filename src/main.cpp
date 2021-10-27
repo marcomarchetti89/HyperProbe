@@ -1,9 +1,8 @@
 #include <Arduino.h>
 #include "myCMD.h"
 #include "myIO.h"
+#include "globals.h"
 
-//variabili globali
-t_cmd cmd_buffer;
 
 void setup() {
   serial_setup(9600); 
