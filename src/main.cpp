@@ -11,4 +11,5 @@ void setup() {
 
 void loop() {
   read_command(&cmd_buffer);
+  write_command(&cmd_buffer);
 }

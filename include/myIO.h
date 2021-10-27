@@ -7,3 +7,6 @@ void serial_setup(int baud);
 //comando = lettera + intero
 void read_command(t_cmd* command_ptr);
 
+//
+void write_command(t_cmd* command_ptr);
+
