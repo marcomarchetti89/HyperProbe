@@ -1,7 +1,8 @@
 #include <Arduino.h>
+#include "globals.h"
 #include "myCMD.h"
 #include "myIO.h"
-#include "globals.h"
+
 
 
 void setup() {
@@ -11,4 +12,6 @@ void setup() {
 void loop() {
   read_command(&cmd_buffer);
   write_command(&cmd_buffer);
+
+  esegui_comando(&cmd_buffer);
 }
