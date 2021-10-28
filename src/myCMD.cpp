@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <stdint.h>
+#include <math.h>
 #include "globals.h"
 #include "myCMD.h"
 
@@ -19,16 +20,23 @@ void esegui_comando(t_cmd* command_ptr){
 }
 
 void set_LED(char nome_LED, int power){
-    analogWrite((int)get_led_pin(nome_LED), power);
+    analogWrite((int)get_led_pin(nome_LED), power_logic(power));
 }
 
 int8_t get_led_pin(char nome_LED){
     switch (nome_LED){
     case 'r': return PIN_RED_LED;
-    case 'g': return PIN_RED_LED;
-    case 'b': return PIN_RED_LED;
+    case 'g': return PIN_GREEN_LED;
+    case 'b': return PIN_BLUE_LED;
     default: return -1;
     }
+}
+
+int power_logic(int power){
+    double res = pow(2, power_resolution);
+    int pwm_power = floor(res - power * res / 120);
+    Serial.println(pwm_power);
+    return pwm_power;
 }
 
 void init_PINS(){
@@ -42,10 +50,13 @@ void init_PINS(){
     analogWriteFrequency(PIN_GREEN_LED, PWM_frequency); 
     analogWriteFrequency(PIN_BLUE_LED, PWM_frequency); 
     
+    //set frequenza del pwm
+    analogWriteResolution(power_resolution); 
+
     //spengo led (logica negata)
-    analogWrite(PIN_RED_LED, 255);
-    analogWrite(PIN_GREEN_LED, 255);
-    analogWrite(PIN_BLUE_LED, 255);
+    set_LED('r', 0);
+    set_LED('g', 0);
+    set_LED('b', 0);
     
     //accensione alimentazione led
     digitalWriteFast(PIN_PWR_12V, HIGH);

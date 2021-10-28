@@ -25,4 +25,8 @@ void init_PINS();
 
 //trigger sequenza di acquisizione immagini
 void acquisition();
+
+//
+int power_logic(int power);
+
 #endif

@@ -8,7 +8,7 @@
 #define PWM_frequency 200
 //variabili globali
 extern t_cmd cmd_buffer;  //buffer per il comando
-extern uint8_t current_resolution;  //risoluzione in bit della corrente
+extern uint8_t power_resolution;  //risoluzione in bit della corrente
 
 
 //PINS

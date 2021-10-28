@@ -5,7 +5,7 @@
 
 //variabili globali
 t_cmd cmd_buffer;  //buffer per il comando
-uint8_t current_resolution;  //risoluzione in bit della corrente
+uint8_t power_resolution = 12;  //risoluzione in bit della corrente
 
 
 //PINS
