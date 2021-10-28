@@ -20,4 +20,9 @@ void set_LED(char nome_LED, int power);
 //traduce il nome del led nel pin corrispondente
 int8_t get_led_pin(char nome_LED);
 
+//inizializzazione pins
+void init_PINS();
+
+//trigger sequenza di acquisizione immagini
+void acquisition();
 #endif

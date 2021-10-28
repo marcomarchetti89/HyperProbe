@@ -7,6 +7,7 @@
 
 void setup() {
   serial_setup(9600); 
+  init_PINS();
 }
 
 void loop() {

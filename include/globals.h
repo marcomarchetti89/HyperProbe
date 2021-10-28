@@ -5,6 +5,7 @@
 #ifndef GLOBALS
 #define GLOBALS
 
+#define PWM_frequency 200
 //variabili globali
 extern t_cmd cmd_buffer;  //buffer per il comando
 extern uint8_t current_resolution;  //risoluzione in bit della corrente

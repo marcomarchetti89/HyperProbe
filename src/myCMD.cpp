@@ -31,5 +31,40 @@ int8_t get_led_pin(char nome_LED){
     }
 }
 
+void init_PINS(){
+    //inizializzo pin led come output
+    pinMode(PIN_RED_LED, OUTPUT );
+    pinMode(PIN_GREEN_LED, OUTPUT );
+    pinMode(PIN_BLUE_LED, OUTPUT );
+    
+    //set frequenza del pwm
+    analogWriteFrequency(PIN_RED_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_GREEN_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_BLUE_LED, PWM_frequency); 
+    
+    //spengo led (logica negata)
+    analogWrite(PIN_RED_LED, 255);
+    analogWrite(PIN_GREEN_LED, 255);
+    analogWrite(PIN_BLUE_LED, 255);
+    
+    //accensione alimentazione led
+    digitalWriteFast(PIN_PWR_12V, HIGH);
+    
+    //attacco interrupt per acquisizione
+    pinMode(PIN_START, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(PIN_START), acquisition, FALLING);
+
+    //accensione led builtin per fine inizializzazione pin
+    pinMode(LED_BUILTIN, OUTPUT);
+    for (size_t i = 1; i < 10; i++){
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(500/i);
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(500/i);
+    }
+    
+}
+
+void acquisition(){}
 
 
