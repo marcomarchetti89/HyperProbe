@@ -9,7 +9,7 @@
 //variabili globali
 extern t_cmd cmd_buffer;  //buffer per il comando
 extern uint8_t power_resolution;  //risoluzione in bit della corrente
-
+extern uint8_t analog_power_resolution;  //risoluzione in bit della corrente
 
 //PINS
 extern const uint8_t PIN_PWR_12V;//da connettere al rele
@@ -18,7 +18,8 @@ extern const uint8_t PIN_GREEN_LED;       // pink     to PWM green
 extern const uint8_t PIN_BLUE_LED;       //          to PWM white
 extern const uint8_t PIN_CAMERA;        //          to the camera
 extern const uint8_t PIN_START;        // yellow   to the button
-
-
+extern const uint8_t ANALOG_POWER_RED_LED;       // brown    to PWM red        
+extern const uint8_t ANALOG_POWER_GREEN_LED;       // pink     to PWM green  
+extern const uint8_t ANALOG_POWER_BLUE_LED;
 
 #endif

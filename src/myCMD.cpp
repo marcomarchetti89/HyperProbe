@@ -45,6 +45,11 @@ void init_PINS(){
     pinMode(PIN_GREEN_LED, OUTPUT );
     pinMode(PIN_BLUE_LED, OUTPUT );
     
+    //inizializzo pin di lettura analogica
+    pinMode(ANALOG_POWER_RED_LED, INPUT );
+    pinMode(ANALOG_POWER_GREEN_LED, INPUT );
+    pinMode(ANALOG_POWER_BLUE_LED, INPUT );
+
     //set frequenza del pwm
     analogWriteFrequency(PIN_RED_LED, PWM_frequency); 
     analogWriteFrequency(PIN_GREEN_LED, PWM_frequency); 
@@ -52,6 +57,9 @@ void init_PINS(){
     
     //set frequenza del pwm
     analogWriteResolution(power_resolution); 
+
+    //set risoluzione della tensione analogica
+    analogReadResolution(analog_power_resolution);
 
     //spengo led (logica negata)
     set_LED('r', 0);
@@ -76,6 +84,24 @@ void init_PINS(){
     
 }
 
-void acquisition(){}
+void acquisition(){
+    /*detachInterrupt(digitalPinToInterrupt(START));
+    set_LED('r', )
+    delayMicroseconds(LedSettlingTime);
+    takePhoto();
+    analogWrite(RED_LED, 255);
+    delayMicroseconds(ReadoutTime);
+    val = round(pow(2,PowBit)*GreenPow/100);
+    analogWrite(GREEN_LED, 255-val);
+    Serial.println(val);
+    delayMicroseconds(LedSettlingTime);
+    takePhoto();
+    analogWrite(GREEN_LED, 255);
+    delayMicroseconds(ReadoutTime);
+    Serial.println("done");
+    //delayMicroseconds(1000000);
+    attachInterrupt(digitalPinToInterrupt(START), acquisition, FALLING);*/
+}
+
 
 

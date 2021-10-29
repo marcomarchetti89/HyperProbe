@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include <string>
+using namespace std;
 
 
 //definizioni comandi
@@ -10,6 +12,14 @@ typedef struct {
     char command;
     int value;
 }t_cmd;
+
+//definizione dell'oggetto led
+typedef struct {
+    char letter;
+    int actual_power;
+    int acquisition_power;
+    int analog_power;
+}t_led;
 
 //analizza il comando in ingresso 
 void esegui_comando(t_cmd* command_ptr);
@@ -26,7 +36,7 @@ void init_PINS();
 //trigger sequenza di acquisizione immagini
 void acquisition();
 
-//
+//calcolo potenza led a partire da valore impostato e risoluzione
 int power_logic(int power);
 
 #endif
