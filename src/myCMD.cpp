@@ -4,8 +4,6 @@
 #include "globals.h"
 #include "myCMD.h"
 
-
-
 //prende il comando dato da seriale e lo inoltra alla funzione che serve
 void esegui_comando(t_cmd* command_ptr){
     switch (command_ptr->command){
@@ -42,11 +40,10 @@ void set_LED(char nome_LED, int power){
 }
 
 int8_t get_led_pin(char nome_LED){
-    switch (nome_LED){
-    case 'r': return PIN_RED_LED;
-    case 'g': return PIN_GREEN_LED;
-    case 'b': return PIN_BLUE_LED;
-    default: return -1;
+    for (size_t i = 0; i < NUMERO_LED; i++){
+        if (leds[i].letter == nome_LED){
+            return leds[i].pin;
+        }
     }
 }
 
@@ -78,11 +75,6 @@ void init_PINS(){
 
     //set risoluzione della tensione analogica
     analogReadResolution(analog_power_resolution);
-
-    //spengo led (logica negata)
-    set_LED('r', 0);
-    set_LED('g', 0);
-    set_LED('b', 0);
     
     //accensione alimentazione led
     digitalWriteFast(PIN_PWR_12V, HIGH);
@@ -142,6 +134,36 @@ int analog_power_logic(int analog_power){
     return power;
 }
 
-void init_LED(){   //da scrivere
+void init_LED(){  
+    //RED
+    leds[RED_INDEX].letter = 'r';
+    leds[RED_INDEX].pin = PIN_RED_LED;
+    leds[RED_INDEX].actual_power = 0;
+    leds[RED_INDEX].acquisition_power = 0;
+    leds[RED_INDEX].analog_power = 0;
 
+    //GREEN
+    leds[GREEN_INDEX].letter = 'r';
+    leds[GREEN_INDEX].pin = PIN_GREEN_LED;
+    leds[GREEN_INDEX].actual_power = 0;
+    leds[GREEN_INDEX].acquisition_power = 0;
+    leds[GREEN_INDEX].analog_power = 0;
+
+    //BLUE
+    leds[BLUE_INDEX].letter = 'r';
+    leds[BLUE_INDEX].pin = PIN_BLUE_LED;
+    leds[BLUE_INDEX].actual_power = 0;
+    leds[BLUE_INDEX].acquisition_power = 0;
+    leds[BLUE_INDEX].analog_power = 0;
+
+    //inizializzo power a 0
+    set_all_leds(0);
+
+
+}
+
+void set_all_leds(int power){
+    for (size_t i = 0; i < NUMERO_LED; i++){
+        analogWrite( (int)leds[i].pin, power_logic(power));
+    }
 }

@@ -1,25 +1,9 @@
 #include <stdint.h>
-#include <string>
-using namespace std;
-
+#include "globals.h"
 
 //definizioni comandi
 #ifndef MYCMD
 #define MYCMD
-
-//definizione del tipo comando = lettera + intero
-typedef struct {
-    char command;
-    int value;
-}t_cmd;
-
-//definizione dell'oggetto led
-typedef struct {
-    char letter;
-    int actual_power;
-    int acquisition_power;
-    int analog_power;
-}t_led;
 
 //analizza il comando in ingresso 
 void esegui_comando(t_cmd* command_ptr);
@@ -50,5 +34,8 @@ int analog_power_logic(int analog_power);
 
 //inizializzazione LED
 void init_LED();
+
+//controlla tutti i led (sempre 0-100)
+void set_all_leds(int power);
 
 #endif
