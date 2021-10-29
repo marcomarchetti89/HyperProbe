@@ -8,6 +8,7 @@
 void setup() {
   serial_setup(9600); 
   init_PINS();
+  init_LED();
 }
 
 void loop() {
@@ -15,4 +16,9 @@ void loop() {
   write_command(&cmd_buffer);
 
   esegui_comando(&cmd_buffer);
+  if (analog_ctrl == true){
+    set_analog_power('r');
+    set_analog_power('g');
+    set_analog_power('b');
+  }
 }

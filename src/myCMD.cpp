@@ -12,9 +12,27 @@ void esegui_comando(t_cmd* command_ptr){
     case 'r':
     case 'g':
     case 'b':
-        set_LED(command_ptr->command, command_ptr->value);
+        if (command_ptr->value > 120){
+            Serial.println("out of range");
+        }
+        else if (command_ptr->value > 100 && command_ptr->value <= 120){
+            Serial.println("lower the value asap!!");
+            set_LED(command_ptr->command, command_ptr->value);
+        }
+        else{
+            set_LED(command_ptr->command, command_ptr->value);
+        }
+        break;
+    case 'z':
+        analog_ctrl = true;
+        Serial.println("controllo analogico attivato");
+        break;
+    case 'x':
+        Serial.println("controllo digitale attivato");
+        analog_ctrl = false;
         break;
     default: 
+        Serial.println("comando non presente");
         break;
     }
 }
@@ -84,7 +102,7 @@ void init_PINS(){
     
 }
 
-void acquisition(){
+void acquisition(){  //da scrivere
     /*detachInterrupt(digitalPinToInterrupt(START));
     set_LED('r', )
     delayMicroseconds(LedSettlingTime);
@@ -103,5 +121,27 @@ void acquisition(){
     attachInterrupt(digitalPinToInterrupt(START), acquisition, FALLING);*/
 }
 
+void set_analog_power(char nome_LED){  
+    int val = read_analog_power(nome_LED);
+    int power = analog_power_logic(val);
+    set_LED(nome_LED, power);
+}
 
+int read_analog_power(char nome_LED){  
+    switch (nome_LED){
+    case 'r': return analogRead(ANALOG_POWER_RED_LED);
+    case 'g': return analogRead(ANALOG_POWER_GREEN_LED);
+    case 'b': return analogRead(ANALOG_POWER_BLUE_LED);
+    default: return -1;
+    }
+}
 
+int analog_power_logic(int analog_power){
+    double res = pow(2, analog_power_resolution);
+    int power = floor(analog_power * 120 / res);
+    return power;
+}
+
+void init_LED(){   //da scrivere
+
+}

@@ -10,6 +10,8 @@
 extern t_cmd cmd_buffer;  //buffer per il comando
 extern uint8_t power_resolution;  //risoluzione in bit della corrente
 extern uint8_t analog_power_resolution;  //risoluzione in bit della corrente
+extern uint8_t NUMERO_LED;
+extern bool analog_ctrl;
 
 //PINS
 extern const uint8_t PIN_PWR_12V;//da connettere al rele

@@ -39,4 +39,16 @@ void acquisition();
 //calcolo potenza led a partire da valore impostato e risoluzione
 int power_logic(int power);
 
+//setting led analogico
+void set_analog_power(char nome_LED);
+
+//lettura tensione per setting analogico
+int read_analog_power(char nome_LED);
+
+//calcolo di power a partire dal valore analogico
+int analog_power_logic(int analog_power);
+
+//inizializzazione LED
+void init_LED();
+
 #endif
