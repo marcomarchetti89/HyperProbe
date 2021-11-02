@@ -41,4 +41,7 @@ void init_LED();
 //controlla tutti i led (sempre 0-100)
 void set_all_leds(int power);
 
+//inizializza lettura analogica
+void init_analog();
+
 #endif

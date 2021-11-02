@@ -132,6 +132,9 @@ void set_analog_power(char nome_LED){
     int val = read_analog_power(nome_LED);
     int power = analog_power_logic(val);
     set_LED(nome_LED, power);
+    Serial.print(nome_LED);
+    Serial.print(" analog power ");
+    Serial.println(val);
 }
 
 int read_analog_power(char nome_LED){  
@@ -150,7 +153,6 @@ int read_analog_power(char nome_LED){
 int analog_power_logic(int analog_power){
     double res = pow(2, analog_power_resolution);
     int power = floor(analog_power * 120 / res);
-    Serial.println(power);
     return power;
 }
 
@@ -158,6 +160,7 @@ void init_LED(){
     //RED
     leds[RED_INDEX].letter = 'r';
     leds[RED_INDEX].pin = PIN_RED_LED;
+    leds[RED_INDEX].analog_pin = ANALOG_POWER_RED_LED;
     leds[RED_INDEX].actual_power = 0;
     leds[RED_INDEX].acquisition_power = 0;
     leds[RED_INDEX].analog_power = 0;
@@ -165,6 +168,7 @@ void init_LED(){
     //GREEN
     leds[GREEN_INDEX].letter = 'g';
     leds[GREEN_INDEX].pin = PIN_GREEN_LED;
+    leds[GREEN_INDEX].analog_pin = ANALOG_POWER_GREEN_LED;
     leds[GREEN_INDEX].actual_power = 0;
     leds[GREEN_INDEX].acquisition_power = 0;
     leds[GREEN_INDEX].analog_power = 0;
@@ -172,18 +176,28 @@ void init_LED(){
     //BLUE
     leds[BLUE_INDEX].letter = 'b';
     leds[BLUE_INDEX].pin = PIN_BLUE_LED;
+    leds[BLUE_INDEX].analog_pin = ANALOG_POWER_BLUE_LED;
     leds[BLUE_INDEX].actual_power = 0;
     leds[BLUE_INDEX].acquisition_power = 0;
     leds[BLUE_INDEX].analog_power = 0;
 
     //inizializzo power a 0
     set_all_leds(0);
-
-
 }
 
 void set_all_leds(int power){ //salvare le cose sulla struct
     for (size_t i = 0; i < NUMERO_LED; i++){
         analogWrite( (int)leds[i].pin, power_logic(power));
     }
+}
+
+void init_analog(){
+    for (size_t i = 0; i < NUMERO_LED; i++){
+        int val = analogRead(leds[i].analog_pin);
+        leds[i].analog_power = val;
+        Serial.print(leds[i].letter);
+        Serial.print(" analog power ");
+        Serial.println(val);
+    }
+    
 }

@@ -22,6 +22,7 @@ typedef struct {
 typedef struct {
     char letter;
     uint8_t pin;
+    uint8_t analog_pin;
     int actual_power;
     int acquisition_power;
     int analog_power;
