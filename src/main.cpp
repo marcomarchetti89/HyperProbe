@@ -19,6 +19,5 @@ void loop() {
     for (size_t i = 0; i < NUMERO_LED; i++){
         set_analog_power(leds[i].letter);
     }
-    //delay(1000);
   }
 }

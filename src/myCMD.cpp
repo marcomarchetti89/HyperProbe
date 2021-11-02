@@ -132,9 +132,6 @@ void set_analog_power(char nome_LED){
     int val = read_analog_power(nome_LED);
     int power = analog_power_logic(val);
     set_LED(nome_LED, power);
-    Serial.print(nome_LED);
-    Serial.print(" analog power ");
-    Serial.println(val);
 }
 
 int read_analog_power(char nome_LED){  
