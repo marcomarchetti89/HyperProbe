@@ -17,6 +17,9 @@ int8_t get_led_pin(char nome_LED);
 //inizializzazione pins
 void init_PINS();
 
+//segnale di fine inizializzazione
+void end_init();
+
 //trigger sequenza di acquisizione immagini
 void acquisition();
 

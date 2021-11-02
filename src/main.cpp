@@ -9,6 +9,7 @@ void setup() {
   serial_setup(9600); 
   init_PINS();
   init_LED();
+  end_init();
   //init_analog();  TO DO
 }
 

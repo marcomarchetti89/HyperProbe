@@ -95,15 +95,18 @@ void init_PINS(){
     pinMode(PIN_START, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(PIN_START), acquisition, FALLING);
 
-    //accensione led builtin per fine inizializzazione pin
+    //inizializzazione led builtin
     pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void end_init(){
+    //accensione led builtin per fine inizializzazione
     for (size_t i = 1; i < 10; i++){
         digitalWrite(LED_BUILTIN, HIGH);
         delay(500/i);
         digitalWrite(LED_BUILTIN, LOW);
         delay(500/i);
     }
-    
 }
 
 void acquisition(){  //da scrivere
@@ -133,16 +136,21 @@ void set_analog_power(char nome_LED){
 
 int read_analog_power(char nome_LED){  
     switch (nome_LED){
-    case 'r': return analogRead(ANALOG_POWER_RED_LED);
-    case 'g': return analogRead(ANALOG_POWER_GREEN_LED);
-    case 'b': return analogRead(ANALOG_POWER_BLUE_LED);
-    default: return -1;
+    case 'r': 
+        return analogRead(ANALOG_POWER_RED_LED);
+    case 'g': 
+        return analogRead(ANALOG_POWER_GREEN_LED);
+    case 'b': 
+        return analogRead(ANALOG_POWER_BLUE_LED);
+    default: 
+        return -1;
     }
 }
 
 int analog_power_logic(int analog_power){
     double res = pow(2, analog_power_resolution);
     int power = floor(analog_power * 120 / res);
+    Serial.println(power);
     return power;
 }
 
