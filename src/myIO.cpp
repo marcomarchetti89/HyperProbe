@@ -8,10 +8,11 @@ void serial_setup(int baud){
 }
 
 void read_command(t_cmd* command_ptr){
-    if (Serial.available()){
+    if (Serial.available() > 0){
         command_ptr->command = (char) Serial.read(); 
         command_ptr->value = Serial.parseInt();
         write_command(command_ptr);
+        esegui_comando(command_ptr);
     }
 }
 
@@ -30,6 +31,10 @@ void write_command(t_cmd* command_ptr){
     }
     else if(command_ptr->command == 'b'){
         Serial.print("blue LED power = ");
+        Serial.println(command_ptr->value);
+    }
+    else if(command_ptr->command == 'a'){
+        Serial.print("all LED power = ");
         Serial.println(command_ptr->value);
     }
     else{

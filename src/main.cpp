@@ -13,9 +13,7 @@ void setup() {
 }
 
 void loop() {
-  
   read_command(&cmd_buffer);
-  esegui_comando(&cmd_buffer);
   if (analog_ctrl == true){
     set_analog_power('r');
     set_analog_power('g');

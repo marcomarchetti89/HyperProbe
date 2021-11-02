@@ -21,6 +21,18 @@ void esegui_comando(t_cmd* command_ptr){
             set_LED(command_ptr->command, command_ptr->value);
         }
         break;
+    case 'a':
+        if (command_ptr->value > 120){
+            Serial.println("out of range");
+        }
+        else if (command_ptr->value > 100 && command_ptr->value <= 120){
+            Serial.println("lower the value asap!!");
+            set_all_leds(command_ptr->value);
+        }
+        else{
+            set_all_leds(command_ptr->value);
+        }
+        break;
     case 'z':
         analog_ctrl = true;
         Serial.println("controllo analogico attivato");
@@ -143,14 +155,14 @@ void init_LED(){
     leds[RED_INDEX].analog_power = 0;
 
     //GREEN
-    leds[GREEN_INDEX].letter = 'r';
+    leds[GREEN_INDEX].letter = 'g';
     leds[GREEN_INDEX].pin = PIN_GREEN_LED;
     leds[GREEN_INDEX].actual_power = 0;
     leds[GREEN_INDEX].acquisition_power = 0;
     leds[GREEN_INDEX].analog_power = 0;
 
     //BLUE
-    leds[BLUE_INDEX].letter = 'r';
+    leds[BLUE_INDEX].letter = 'b';
     leds[BLUE_INDEX].pin = PIN_BLUE_LED;
     leds[BLUE_INDEX].actual_power = 0;
     leds[BLUE_INDEX].acquisition_power = 0;
@@ -162,7 +174,7 @@ void init_LED(){
 
 }
 
-void set_all_leds(int power){
+void set_all_leds(int power){ //salvare le cose sulla struct
     for (size_t i = 0; i < NUMERO_LED; i++){
         analogWrite( (int)leds[i].pin, power_logic(power));
     }
