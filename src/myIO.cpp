@@ -11,7 +11,6 @@ void read_command(t_cmd* command_ptr){
     if (Serial.available() > 0){
         command_ptr->command = (char) Serial.read(); 
         command_ptr->value = Serial.parseInt();
-        write_command(command_ptr);
         esegui_comando(command_ptr);
     }
 }
