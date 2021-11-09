@@ -6,7 +6,7 @@
 
 
 void setup() {
-  serial_setup(9600); 
+  serial_setup(115200); 
   init_PINS();
   init_LED();
   init_analog();
