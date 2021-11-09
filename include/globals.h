@@ -34,6 +34,9 @@ extern uint8_t power_resolution;  //risoluzione in bit della corrente
 extern uint8_t analog_power_resolution;  //risoluzione in bit della corrente settata analogicamente
 extern bool analog_ctrl; //controllo del setting analogico/digitale
 extern t_led leds[]; //vettore dei led
+extern int LedSettlingTime;
+extern int exp_time;
+extern int ReadoutTime;
 
 //PINS
 extern const uint8_t PIN_PWR_12V;   //da connettere al rele da montere al posto dell'interruttore

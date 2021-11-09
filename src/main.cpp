@@ -15,9 +15,4 @@ void setup() {
 
 void loop() {
   read_command(&cmd_buffer);
-  if (analog_ctrl == true){
-    for (size_t i = 0; i < NUMERO_LED; i++){
-        set_analog_power(leds[i].letter);
-    }
-  }
 }

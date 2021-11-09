@@ -88,24 +88,16 @@ void end_init(){
     }
 }
 
+
 void esegui_comando(t_cmd* command_ptr){
     switch (command_ptr->command){
     case 'r':
     case 'g':
     case 'b':
-        set_LED(command_ptr->command, command_ptr->value );
+        set_LED(command_ptr->command, command_ptr->value);
         break;
     case 'a':
-        if (command_ptr->value > 120){
-            Serial.println("out of range");
-        }
-        else if (command_ptr->value > 100 && command_ptr->value <= 120){
-            Serial.println("lower the value asap!!");
-            set_all_leds(command_ptr->value);
-        }
-        else{
-            set_all_leds(command_ptr->value);
-        }
+        set_all_leds(command_ptr->value);
         break;
     case 'z':
         analog_ctrl = true;
@@ -115,24 +107,39 @@ void esegui_comando(t_cmd* command_ptr){
         Serial.println("controllo digitale attivato");
         analog_ctrl = false;
         break;
+    case 't':
+        acquisition();
+        break;
     default: 
         Serial.println("comando non presente");
         break;
     }
 }
 
+void turn_ON_LED(char nome_LED){
+    analogWrite((int)get_led_pin(nome_LED), leds[led_index(nome_LED)].actual_power);
+}
+
+void turn_OFF_LED(char nome_LED){
+    analogWrite((int)get_led_pin(nome_LED), power_logic(0));
+}
+
 void set_LED(char nome_LED, int power){
-    int led_number = led_index(nome_LED);
-    if (power < 120){
-        leds[led_number].actual_power = power;
-        analogWrite((int)get_led_pin(nome_LED), power_logic(power));    
+    if (power == 0){
+        turn_OFF_LED(nome_LED);
     }
-    else if (power >= 120 && power < 240){
-        leds[led_number].acquisition_power = power-120;
+    if (power > 0 && power < 120){
+        leds[led_index(nome_LED)].actual_power = power;
+    }
+    else if(power >= 120 && power < 240){
+        leds[led_index(nome_LED)].acquisition_power = power-120;
+    }
+    else if(power == 240){
+        turn_ON_LED(nome_LED);
     }
     else{
-        Serial.println("out of range");
-    }
+         Serial.println("out of range");
+    }   
 }
 
 uint8_t get_led_pin(char nome_LED){
@@ -150,26 +157,59 @@ int power_logic(int power){
     return pwm_power;
 }
 
-
-
-void acquisition(){  //da scrivere
-    /*detachInterrupt(digitalPinToInterrupt(START));
-    set_LED('r', )
-    delayMicroseconds(LedSettlingTime);
-    takePhoto();
-    analogWrite(RED_LED, 255);
-    delayMicroseconds(ReadoutTime);
-    val = round(pow(2,PowBit)*GreenPow/100);
-    analogWrite(GREEN_LED, 255-val);
-    Serial.println(val);
-    delayMicroseconds(LedSettlingTime);
-    takePhoto();
-    analogWrite(GREEN_LED, 255);
-    delayMicroseconds(ReadoutTime);
-    Serial.println("done");
-    //delayMicroseconds(1000000);
-    attachInterrupt(digitalPinToInterrupt(START), acquisition, FALLING);*/
+int led_index(char nome_LED){
+    switch (nome_LED){
+    case 'r':
+        return RED_INDEX;
+        break;
+    case 'g':
+        return GREEN_INDEX;
+        break;
+    case 'b':
+        return BLUE_INDEX;
+        break;
+    default:
+        return -1;
+        break;
+    }
 }
+
+void set_all_leds(int power){ 
+    if (power == 0){
+        for (size_t i = 0; i < NUMERO_LED; i++){
+            analogWrite( (int)leds[i].pin, power_logic(leds[i].actual_power));
+        }
+    }
+    else{
+        for (size_t i = 0; i < NUMERO_LED; i++){
+            analogWrite( (int)leds[i].pin, power_logic(leds[i].actual_power));
+        }
+    }
+}
+
+
+
+
+
+
+void acquisition(){
+    set_all_leds(0);
+    for (size_t i = 0; i < NUMERO_LED; i++){
+            analogWrite( (int)leds[i].pin, power_logic(leds[i].actual_power));
+            delayMicroseconds(LedSettlingTime);
+            takePhoto();
+            analogWrite( (int)leds[i].pin, power_logic(0));
+            delayMicroseconds(ReadoutTime);
+    }
+}
+
+void takePhoto(){
+    digitalWriteFast(PIN_CAMERA, HIGH);
+    delayMicroseconds(exp_time);
+    digitalWriteFast(PIN_CAMERA, LOW);
+}
+
+
 
 void set_analog_power(char nome_LED){  
     int val = read_analog_power(nome_LED);
@@ -197,26 +237,5 @@ int analog_power_logic(int analog_power){
 }
 
 
-void set_all_leds(int power){ //salvare le cose sulla struct
-    for (size_t i = 0; i < NUMERO_LED; i++){
-        analogWrite( (int)leds[i].pin, power_logic(power));
-    }
-}
 
 
-int led_index(char nome_LED){
-    switch (nome_LED){
-    case 'r':
-        return RED_INDEX;
-        break;
-    case 'g':
-        return GREEN_INDEX;
-        break;
-    case 'b':
-        return BLUE_INDEX;
-        break;
-    default:
-        return -1;
-        break;
-    }
-}

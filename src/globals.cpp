@@ -10,6 +10,9 @@ uint8_t power_resolution = 12;  //risoluzione in bit della corrente
 uint8_t analog_power_resolution = 12;  //risoluzione in bit della lettura analogica
 bool analog_ctrl = false; 
 t_led leds[NUMERO_LED];
+int LedSettlingTime = 10;
+int exp_time = 10000;
+int ReadoutTime = 1000;
 
 //PINS
 const uint8_t PIN_PWR_12V = 10;      //da connettere al rele
