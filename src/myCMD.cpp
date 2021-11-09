@@ -107,6 +107,9 @@ void esegui_comando(t_cmd* command_ptr){
         Serial.println("controllo digitale attivato");
         analog_ctrl = false;
         break;
+    case 'e':
+        exp_time = command_ptr->value;
+        break;
     case 't':
         acquisition();
         break;
@@ -117,7 +120,7 @@ void esegui_comando(t_cmd* command_ptr){
 }
 
 void turn_ON_LED(char nome_LED){
-    analogWrite((int)get_led_pin(nome_LED), leds[led_index(nome_LED)].actual_power);
+    analogWrite((int)get_led_pin(nome_LED), power_logic(leds[led_index(nome_LED)].actual_power));
 }
 
 void turn_OFF_LED(char nome_LED){
@@ -177,7 +180,7 @@ int led_index(char nome_LED){
 void set_all_leds(int power){ 
     if (power == 0){
         for (size_t i = 0; i < NUMERO_LED; i++){
-            analogWrite( (int)leds[i].pin, power_logic(leds[i].actual_power));
+            analogWrite( (int)leds[i].pin, power_logic(0));
         }
     }
     else{
