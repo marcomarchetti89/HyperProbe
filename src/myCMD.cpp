@@ -99,6 +99,7 @@ void esegui_comando(t_cmd* command_ptr){
         break;
     case 'z':
         analog_ctrl = true;
+        update_leds();
         for (size_t i = 0; i < NUMERO_LED; i++){
             Serial.print(leds[i].letter);
             Serial.print(leds[i].analog_power + 100);
@@ -106,6 +107,7 @@ void esegui_comando(t_cmd* command_ptr){
         break;
     case 'x':
         analog_ctrl = false;
+        update_leds();
         break;
     case 'e':
         exp_time = command_ptr->value;
@@ -124,7 +126,7 @@ void turn_ON_LED(char nome_LED){
     if (analog_ctrl == false){
         analogWrite((int)get_led_pin(nome_LED), power_logic(leds[led_index(nome_LED)].actual_power));
     }
-    else {
+    else{
         analogWrite((int)get_led_pin(nome_LED), power_logic(leds[led_index(nome_LED)].analog_power));
     }
     
@@ -186,17 +188,26 @@ int led_index(char nome_LED){
 void set_all_leds(int power){ 
     if (power == 0){
         for (size_t i = 0; i < NUMERO_LED; i++){
-            analogWrite( (int)leds[i].pin, power_logic(0));
+            turn_OFF_LED(leds[i].letter);
         }
     }
     else{
         for (size_t i = 0; i < NUMERO_LED; i++){
-            analogWrite( (int)leds[i].pin, power_logic(leds[i].actual_power));
+            turn_ON_LED(leds[i].letter);
         }
     }
 }
 
-
+void update_leds(){
+    for (size_t i = 0; i < NUMERO_LED; i++){
+        if (leds[i].state == true){
+            turn_ON_LED(leds[i].letter);
+        }
+        else{
+            turn_OFF_LED(leds[i].letter);
+        }
+    }
+}
 
 
 
