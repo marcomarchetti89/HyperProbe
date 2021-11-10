@@ -101,7 +101,7 @@ void esegui_comando(t_cmd* command_ptr){
         analog_ctrl = true;
         for (size_t i = 0; i < NUMERO_LED; i++){
             Serial.print(leds[i].letter);
-            Serial.print(leds[i].analog_power);
+            Serial.print(leds[i].analog_power + 100);
         }
         break;
     case 'x':
@@ -149,7 +149,6 @@ void set_LED(char nome_LED, int power){
         turn_ON_LED(nome_LED);
     }
     else{
-         Serial.println("out of range");
     }   
 }
 
@@ -164,7 +163,6 @@ uint8_t get_led_pin(char nome_LED){
 int power_logic(int power){
     double res = pow(2, power_resolution);
     int pwm_power = floor(res - power * res / 120);
-    Serial.println(pwm_power);
     return pwm_power;
 }
 
