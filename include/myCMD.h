@@ -46,7 +46,7 @@ int led_index(char nome_LED);
 //controlla tutti i led (accensione o spengimento)
 void set_all_leds(int power);
 
-
+void update_leds();
 
 //trigger sequenza di acquisizione immagini
 void acquisition();
