@@ -15,4 +15,8 @@ void setup() {
 
 void loop() {
   read_command(&cmd_buffer);
+  if (analog_ctrl == true){
+      init_analog();
+  }
+    
 }

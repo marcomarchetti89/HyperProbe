@@ -21,6 +21,7 @@ typedef struct {
 //definizione dell'oggetto led
 typedef struct {
     char letter;
+    bool state;
     uint8_t pin;
     uint8_t analog_pin;
     int actual_power;

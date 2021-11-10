@@ -41,6 +41,7 @@ void init_PINS(){
 void init_LED(){  
     //RED
     leds[RED_INDEX].letter = 'r';
+    leds[RED_INDEX].state = false;
     leds[RED_INDEX].pin = PIN_RED_LED;
     leds[RED_INDEX].analog_pin = ANALOG_POWER_RED_LED;
     leds[RED_INDEX].actual_power = 0;
@@ -49,6 +50,7 @@ void init_LED(){
 
     //GREEN
     leds[GREEN_INDEX].letter = 'g';
+    leds[GREEN_INDEX].state = false;
     leds[GREEN_INDEX].pin = PIN_GREEN_LED;
     leds[GREEN_INDEX].analog_pin = ANALOG_POWER_GREEN_LED;
     leds[GREEN_INDEX].actual_power = 0;
@@ -57,6 +59,7 @@ void init_LED(){
 
     //BLUE
     leds[BLUE_INDEX].letter = 'b';
+    leds[BLUE_INDEX].state = false;
     leds[BLUE_INDEX].pin = PIN_BLUE_LED;
     leds[BLUE_INDEX].analog_pin = ANALOG_POWER_BLUE_LED;
     leds[BLUE_INDEX].actual_power = 0;
@@ -69,13 +72,8 @@ void init_LED(){
 
 void init_analog(){
     for (size_t i = 0; i < NUMERO_LED; i++){
-        int val = analogRead(leds[i].analog_pin);
-        leds[i].analog_power = val;
-        Serial.print(leds[i].letter);
-        Serial.print(" analog power ");
-        Serial.println(val);
+        leds[i].analog_power = analog_power_logic(analogRead(leds[i].analog_pin));
     }
-    
 }
 
 void end_init(){
@@ -101,10 +99,12 @@ void esegui_comando(t_cmd* command_ptr){
         break;
     case 'z':
         analog_ctrl = true;
-        Serial.println("controllo analogico attivato");
+        for (size_t i = 0; i < NUMERO_LED; i++){
+            Serial.print(leds[i].letter);
+            Serial.print(leds[i].analog_power);
+        }
         break;
     case 'x':
-        Serial.println("controllo digitale attivato");
         analog_ctrl = false;
         break;
     case 'e':
@@ -120,10 +120,18 @@ void esegui_comando(t_cmd* command_ptr){
 }
 
 void turn_ON_LED(char nome_LED){
-    analogWrite((int)get_led_pin(nome_LED), power_logic(leds[led_index(nome_LED)].actual_power));
+    leds[led_index(nome_LED)].state = true;
+    if (analog_ctrl == false){
+        analogWrite((int)get_led_pin(nome_LED), power_logic(leds[led_index(nome_LED)].actual_power));
+    }
+    else {
+        analogWrite((int)get_led_pin(nome_LED), power_logic(leds[led_index(nome_LED)].analog_power));
+    }
+    
 }
 
 void turn_OFF_LED(char nome_LED){
+    leds[led_index(nome_LED)].state = false;
     analogWrite((int)get_led_pin(nome_LED), power_logic(0));
 }
 
