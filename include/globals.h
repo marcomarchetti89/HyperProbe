@@ -3,7 +3,7 @@
 #ifndef GLOBALS
 #define GLOBALS
 
-#define PWM_frequency 200
+#define PWM_frequency 2000
 
 /*lo definisco costante perché poi crerò un array di led
 e se è variabile devo mallocare la memoria*/

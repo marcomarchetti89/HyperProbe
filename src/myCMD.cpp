@@ -36,6 +36,7 @@ void init_PINS(){
 
     //inizializzazione led builtin
     pinMode(LED_BUILTIN, OUTPUT);
+    pinMode(PIN_CAMERA, OUTPUT);
 }
 
 void init_LED(){  
@@ -114,6 +115,15 @@ void esegui_comando(t_cmd* command_ptr){
         break;
     case 't':
         acquisition();
+        break;
+    case 'p':
+        analogWrite(PIN_RED_LED, power_logic(100));
+        delayMicroseconds(command_ptr->value);
+        digitalWrite(PIN_CAMERA, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(PIN_CAMERA, LOW);
+        delayMicroseconds(1);
+        analogWrite(PIN_RED_LED, power_logic(0));
         break;
     default: 
         Serial.println("comando non presente");
@@ -214,6 +224,7 @@ void update_leds(){
 
 void acquisition(){
     set_all_leds(0);
+    delayMicroseconds(1000000);
     for (size_t i = 0; i < NUMERO_LED; i++){
             analogWrite( (int)leds[i].pin, power_logic(leds[i].actual_power));
             delayMicroseconds(LedSettlingTime);
