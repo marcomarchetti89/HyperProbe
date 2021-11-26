@@ -7,26 +7,26 @@
 
 void init_PINS(){
     //inizializzo pin led come output
-    pinMode(PIN_RED_LED, OUTPUT );
-    pinMode(PIN_GREEN_LED, OUTPUT );
-    pinMode(PIN_BLUE_LED, OUTPUT );
+    pinMode(PIN_FRD_LED, OUTPUT );
+    pinMode(PIN_DRD_LED, OUTPUT );
+    pinMode(PIN_RNG_LED, OUTPUT );
+    pinMode(PIN_AMB_LED, OUTPUT );
+    pinMode(PIN_GRN_LED, OUTPUT );
+    pinMode(PIN_BLU_LED, OUTPUT );
+    pinMode(PIN_RYL_LED, OUTPUT );
     
-    //inizializzo pin di lettura analogica
-    pinMode(ANALOG_POWER_RED_LED, INPUT );
-    pinMode(ANALOG_POWER_GREEN_LED, INPUT );
-    pinMode(ANALOG_POWER_BLUE_LED, INPUT );
-
     //set frequenza del pwm
-    analogWriteFrequency(PIN_RED_LED, PWM_frequency); 
-    analogWriteFrequency(PIN_GREEN_LED, PWM_frequency); 
-    analogWriteFrequency(PIN_BLUE_LED, PWM_frequency); 
-    
+    analogWriteFrequency(PIN_FRD_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_DRD_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_RNG_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_AMB_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_GRN_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_BLU_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_RYL_LED, PWM_frequency); 
+
     //set frequenza del pwm
     analogWriteResolution(power_resolution); 
 
-    //set risoluzione della tensione analogica
-    analogReadResolution(analog_power_resolution);
-    
     //accensione alimentazione led
     digitalWriteFast(PIN_PWR_12V, HIGH);
     
@@ -40,33 +40,54 @@ void init_PINS(){
 }
 
 void init_LED(){  
-    //RED
-    leds[RED_INDEX].letter = 'r';
-    leds[RED_INDEX].state = false;
-    leds[RED_INDEX].pin = PIN_RED_LED;
-    leds[RED_INDEX].analog_pin = ANALOG_POWER_RED_LED;
-    leds[RED_INDEX].actual_power = 0;
-    leds[RED_INDEX].acquisition_power = 0;
-    leds[RED_INDEX].analog_power = 0;
+    //far red
+    leds[FRD_INDEX].letter = 'q';
+    leds[FRD_INDEX].state = false;
+    leds[FRD_INDEX].pin = PIN_FRD_LED;
+    leds[FRD_INDEX].actual_power = 0;
+    leds[FRD_INDEX].acquisition_power = 0;
 
-    //GREEN
-    leds[GREEN_INDEX].letter = 'g';
-    leds[GREEN_INDEX].state = false;
-    leds[GREEN_INDEX].pin = PIN_GREEN_LED;
-    leds[GREEN_INDEX].analog_pin = ANALOG_POWER_GREEN_LED;
-    leds[GREEN_INDEX].actual_power = 0;
-    leds[GREEN_INDEX].acquisition_power = 0;
-    leds[GREEN_INDEX].analog_power = 0;
+    //deep red
+    leds[DRD_INDEX].letter = 'w';
+    leds[DRD_INDEX].state = false;
+    leds[DRD_INDEX].pin = PIN_DRD_LED;
+    leds[DRD_INDEX].actual_power = 0;
+    leds[DRD_INDEX].acquisition_power = 0;
 
-    //BLUE
-    leds[BLUE_INDEX].letter = 'b';
-    leds[BLUE_INDEX].state = false;
-    leds[BLUE_INDEX].pin = PIN_BLUE_LED;
-    leds[BLUE_INDEX].analog_pin = ANALOG_POWER_BLUE_LED;
-    leds[BLUE_INDEX].actual_power = 0;
-    leds[BLUE_INDEX].acquisition_power = 0;
-    leds[BLUE_INDEX].analog_power = 0;
+    //red-orange
+    leds[RNG_INDEX].letter = 'e';
+    leds[RNG_INDEX].state = false;
+    leds[RNG_INDEX].pin = PIN_RNG_LED;
+    leds[RNG_INDEX].actual_power = 0;
+    leds[RNG_INDEX].acquisition_power = 0;
 
+    //amber
+    leds[AMB_INDEX].letter = 'r';
+    leds[AMB_INDEX].state = false;
+    leds[AMB_INDEX].pin = PIN_RNG_LED;
+    leds[AMB_INDEX].actual_power = 0;
+    leds[AMB_INDEX].acquisition_power = 0;
+
+    //green
+    leds[GRN_INDEX].letter = 't';
+    leds[GRN_INDEX].state = false;
+    leds[GRN_INDEX].pin = PIN_RNG_LED;
+    leds[GRN_INDEX].actual_power = 0;
+    leds[GRN_INDEX].acquisition_power = 0;
+
+    //blue
+    leds[BLU_INDEX].letter = 'y';
+    leds[BLU_INDEX].state = false;
+    leds[BLU_INDEX].pin = PIN_RNG_LED;
+    leds[BLU_INDEX].actual_power = 0;
+    leds[BLU_INDEX].acquisition_power = 0;
+
+    //royal blue
+    leds[RYL_INDEX].letter = 'u';
+    leds[RYL_INDEX].state = false;
+    leds[RYL_INDEX].pin = PIN_RNG_LED;
+    leds[RYL_INDEX].actual_power = 0;
+    leds[RYL_INDEX].acquisition_power = 0;
     //inizializzo power a 0
     set_all_leds(0);
 }

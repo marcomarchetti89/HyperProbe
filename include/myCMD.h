@@ -52,7 +52,4 @@ void acquisition();
 void takePhoto();
 
 
-
-
-
 #endif

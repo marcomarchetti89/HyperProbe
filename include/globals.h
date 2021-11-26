@@ -36,10 +36,8 @@ typedef struct {
     char letter;
     bool state;
     uint8_t pin;
-    uint8_t analog_pin;
     int actual_power;
     int acquisition_power;
-    int analog_power;
 }t_led;
 
 //variabili globali
