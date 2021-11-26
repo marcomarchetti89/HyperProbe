@@ -71,12 +71,6 @@ void init_LED(){
     set_all_leds(0);
 }
 
-void init_analog(){
-    for (size_t i = 0; i < NUMERO_LED; i++){
-        leds[i].analog_power = analog_power_logic(analogRead(leds[i].analog_pin));
-    }
-}
-
 void end_init(){
     //accensione led builtin per fine inizializzazione
     for (size_t i = 1; i < 10; i++){
@@ -244,34 +238,6 @@ void takePhoto(){
     delayMicroseconds(exp_time);
     digitalWriteFast(PIN_CAMERA, LOW);
 }
-
-
-
-void set_analog_power(char nome_LED){  
-    int val = read_analog_power(nome_LED);
-    int power = analog_power_logic(val);
-    set_LED(nome_LED, power);
-}
-
-int read_analog_power(char nome_LED){  
-    switch (nome_LED){
-    case 'r': 
-        return analogRead(ANALOG_POWER_RED_LED);
-    case 'g': 
-        return analogRead(ANALOG_POWER_GREEN_LED);
-    case 'b': 
-        return analogRead(ANALOG_POWER_BLUE_LED);
-    default: 
-        return -1;
-    }
-}
-
-int analog_power_logic(int analog_power){
-    double res = pow(2, analog_power_resolution);
-    int power = floor(analog_power * 120 / res);
-    return power;
-}
-
 
 
 

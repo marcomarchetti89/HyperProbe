@@ -13,9 +13,6 @@ void init_PINS();
 //inizializzazione LED
 void init_LED();
 
-//inizializza lettura analogica
-void init_analog();
-
 //segnale di fine inizializzazione
 void end_init();
 
@@ -55,16 +52,6 @@ void acquisition();
 void takePhoto();
 
 
-//funzione relative al controllo analogico
-
-//setting led analogico
-void set_analog_power(char nome_LED);
-
-//lettura tensione per setting analogico
-int read_analog_power(char nome_LED);
-
-//calcolo di power a partire dal valore analogico
-int analog_power_logic(int analog_power);
 
 
 
