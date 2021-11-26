@@ -38,7 +38,7 @@ uint8_t led_letter2pin(char nome_LED);
 int power_logic(int power);
 
 //data la lettera del led restituisce l'indice
-int led_index(char nome_LED);
+int led_letter2index(char nome_LED);
 
 //controlla tutti i led (accensione o spengimento)
 void set_all_leds(int power);

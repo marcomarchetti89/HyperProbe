@@ -64,42 +64,44 @@ void init_LED(){
     //amber
     leds[AMB_INDEX].letter = 'r';
     leds[AMB_INDEX].state = false;
-    leds[AMB_INDEX].pin = PIN_RNG_LED;
+    leds[AMB_INDEX].pin = PIN_AMB_LED;
     leds[AMB_INDEX].actual_power = 0;
     leds[AMB_INDEX].acquisition_power = 0;
 
     //green
     leds[GRN_INDEX].letter = 't';
     leds[GRN_INDEX].state = false;
-    leds[GRN_INDEX].pin = PIN_RNG_LED;
+    leds[GRN_INDEX].pin = PIN_GRN_LED;
     leds[GRN_INDEX].actual_power = 0;
     leds[GRN_INDEX].acquisition_power = 0;
 
     //blue
     leds[BLU_INDEX].letter = 'y';
     leds[BLU_INDEX].state = false;
-    leds[BLU_INDEX].pin = PIN_RNG_LED;
+    leds[BLU_INDEX].pin = PIN_BLU_LED;
     leds[BLU_INDEX].actual_power = 0;
     leds[BLU_INDEX].acquisition_power = 0;
 
     //royal blue
     leds[RYL_INDEX].letter = 'u';
     leds[RYL_INDEX].state = false;
-    leds[RYL_INDEX].pin = PIN_RNG_LED;
+    leds[RYL_INDEX].pin = PIN_RYL_LED;
     leds[RYL_INDEX].actual_power = 0;
     leds[RYL_INDEX].acquisition_power = 0;
+    
     //inizializzo power a 0
     set_all_leds(0);
 }
 
 void end_init(){
     //accensione led builtin per fine inizializzazione
-    for (size_t i = 1; i < 10; i++){
+    for (size_t i = 1; i < 20; i++){
         digitalWrite(LED_BUILTIN, HIGH);
         delay(500/i);
         digitalWrite(LED_BUILTIN, LOW);
         delay(500/i);
     }
+    //accensione a giro dei led
     for (size_t i = 0; i < NUMERO_LED; i++){
         analogWrite(leds[i].pin, power_logic(20));
         delay(300);
@@ -150,12 +152,12 @@ void esegui_comando(t_cmd* command_ptr){
 }
 
 void turn_ON_LED(char nome_LED){
-    leds[led_index(nome_LED)].state = true;
-    analogWrite((int)led_letter2pin(nome_LED), power_logic(leds[led_index(nome_LED)].actual_power));
+    leds[led_letter2index(nome_LED)].state = true;
+    analogWrite((int)led_letter2pin(nome_LED), power_logic(leds[led_letter2index(nome_LED)].actual_power));
 }
 
 void turn_OFF_LED(char nome_LED){
-    leds[led_index(nome_LED)].state = false;
+    leds[led_letter2index(nome_LED)].state = false;
     analogWrite((int)led_letter2pin(nome_LED), power_logic(0));
 }
 
@@ -164,10 +166,10 @@ void set_LED(char nome_LED, int power){
         turn_OFF_LED(nome_LED);
     }
     if (power > 0 && power < 120){
-        leds[led_index(nome_LED)].actual_power = power;
+        leds[led_letter2index(nome_LED)].actual_power = power;
     }
     else if(power >= 120 && power < 240){
-        leds[led_index(nome_LED)].acquisition_power = power-120;
+        leds[led_letter2index(nome_LED)].acquisition_power = power-120;
     }
     else if(power == 240){
         turn_ON_LED(nome_LED);
@@ -190,7 +192,7 @@ int power_logic(int power){
     return pwm_power;
 }
 
-int led_index(char nome_LED){
+int led_letter2index(char nome_LED){
     switch (nome_LED){
     case 'q':
         return FRD_INDEX;
