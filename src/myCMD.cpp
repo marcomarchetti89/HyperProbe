@@ -100,6 +100,12 @@ void end_init(){
         digitalWrite(LED_BUILTIN, LOW);
         delay(500/i);
     }
+    for (size_t i = 0; i < NUMERO_LED; i++){
+        analogWrite((int)get_led_pin(nome_LED), power_logic(20));
+        delay(300);
+        analogWrite((int)get_led_pin(nome_LED), power_logic(0));
+    }
+    
 }
 
 
@@ -123,7 +129,7 @@ void esegui_comando(t_cmd* command_ptr){
     case 'd':
         acquisition();
         break;
-    case 'd':
+    case 'f':
         digitalWrite(PIN_CAMERA, HIGH);
         analogWrite(PIN_BLUE_LED, power_logic(100));
         delayMicroseconds(command_ptr->value);
