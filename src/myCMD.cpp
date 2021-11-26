@@ -117,13 +117,18 @@ void esegui_comando(t_cmd* command_ptr){
         acquisition();
         break;
     case 'p':
-        analogWrite(PIN_RED_LED, power_logic(100));
-        delayMicroseconds(command_ptr->value);
         digitalWrite(PIN_CAMERA, HIGH);
-        delayMicroseconds(10);
+        analogWrite(PIN_BLUE_LED, power_logic(100));
+        delayMicroseconds(command_ptr->value);
+        analogWrite(PIN_BLUE_LED, power_logic(60));
+        delayMicroseconds(command_ptr->value);
+        analogWrite(PIN_BLUE_LED, power_logic(30));
+        delayMicroseconds(command_ptr->value);
+        analogWrite(PIN_BLUE_LED, power_logic(15));
+        delayMicroseconds(command_ptr->value);
         digitalWrite(PIN_CAMERA, LOW);
         delayMicroseconds(1);
-        analogWrite(PIN_RED_LED, power_logic(0));
+        analogWrite(PIN_BLUE_LED, power_logic(0));
         break;
     default: 
         Serial.println("comando non presente");
