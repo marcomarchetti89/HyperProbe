@@ -101,9 +101,9 @@ void end_init(){
         delay(500/i);
     }
     for (size_t i = 0; i < NUMERO_LED; i++){
-        analogWrite((int)get_led_pin(nome_LED), power_logic(20));
+        analogWrite(leds[i].pin, power_logic(20));
         delay(300);
-        analogWrite((int)get_led_pin(nome_LED), power_logic(0));
+        analogWrite(leds[i].pin, power_logic(0));
     }
     
 }
@@ -131,17 +131,17 @@ void esegui_comando(t_cmd* command_ptr){
         break;
     case 'f':
         digitalWrite(PIN_CAMERA, HIGH);
-        analogWrite(PIN_BLUE_LED, power_logic(100));
+        analogWrite(PIN_FRD_LED, power_logic(100));
         delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_BLUE_LED, power_logic(60));
+        analogWrite(PIN_FRD_LED, power_logic(60));
         delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_BLUE_LED, power_logic(30));
+        analogWrite(PIN_FRD_LED, power_logic(30));
         delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_BLUE_LED, power_logic(15));
+        analogWrite(PIN_FRD_LED, power_logic(15));
         delayMicroseconds(command_ptr->value);
         digitalWrite(PIN_CAMERA, LOW);
         delayMicroseconds(1);
-        analogWrite(PIN_BLUE_LED, power_logic(0));
+        analogWrite(PIN_FRD_LED, power_logic(0));
         break;
     default: 
         Serial.println("comando non presente");
@@ -151,18 +151,12 @@ void esegui_comando(t_cmd* command_ptr){
 
 void turn_ON_LED(char nome_LED){
     leds[led_index(nome_LED)].state = true;
-    if (analog_ctrl == false){
-        analogWrite((int)get_led_pin(nome_LED), power_logic(leds[led_index(nome_LED)].actual_power));
-    }
-    else{
-        analogWrite((int)get_led_pin(nome_LED), power_logic(leds[led_index(nome_LED)].analog_power));
-    }
-    
+    analogWrite((int)led_letter2pin(nome_LED), power_logic(leds[led_index(nome_LED)].actual_power));
 }
 
 void turn_OFF_LED(char nome_LED){
     leds[led_index(nome_LED)].state = false;
-    analogWrite((int)get_led_pin(nome_LED), power_logic(0));
+    analogWrite((int)led_letter2pin(nome_LED), power_logic(0));
 }
 
 void set_LED(char nome_LED, int power){
@@ -182,7 +176,7 @@ void set_LED(char nome_LED, int power){
     }   
 }
 
-uint8_t get_led_pin(char nome_LED){
+uint8_t led_letter2pin(char nome_LED){
     for (size_t i = 0; i < NUMERO_LED; i++){
         if (leds[i].letter == nome_LED){
             return leds[i].pin;

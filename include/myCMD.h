@@ -32,7 +32,7 @@ void turn_OFF_LED(char nome_LED);
 void set_LED(char nome_LED, int power);
 
 //traduce il nome del led nel pin corrispondente
-uint8_t get_led_pin(char nome_LED);
+uint8_t led_letter2pin(char nome_LED);
 
 //calcolo potenza led a partire da valore impostato e risoluzione
 int power_logic(int power);
