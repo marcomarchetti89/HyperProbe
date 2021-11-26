@@ -105,33 +105,25 @@ void end_init(){
 
 void esegui_comando(t_cmd* command_ptr){
     switch (command_ptr->command){
+    case 'q':
+    case 'w':
+    case 'e':
     case 'r':
-    case 'g':
-    case 'b':
+    case 't':
+    case 'y':
+    case 'u':
         set_LED(command_ptr->command, command_ptr->value);
         break;
     case 'a':
         set_all_leds(command_ptr->value);
         break;
-    case 'z':
-        analog_ctrl = true;
-        update_leds();
-        for (size_t i = 0; i < NUMERO_LED; i++){
-            Serial.print(leds[i].letter);
-            Serial.print(leds[i].analog_power + 100);
-        }
-        break;
-    case 'x':
-        analog_ctrl = false;
-        update_leds();
-        break;
-    case 'e':
+    case 's':
         exp_time = command_ptr->value;
         break;
-    case 't':
+    case 'd':
         acquisition();
         break;
-    case 'p':
+    case 'd':
         digitalWrite(PIN_CAMERA, HIGH);
         analogWrite(PIN_BLUE_LED, power_logic(100));
         delayMicroseconds(command_ptr->value);
@@ -200,14 +192,26 @@ int power_logic(int power){
 
 int led_index(char nome_LED){
     switch (nome_LED){
+    case 'q':
+        return FRD_INDEX;
+        break;
+    case 'w':
+        return DRD_INDEX;
+        break;
+    case 'e':
+        return RNG_INDEX;
+        break;
     case 'r':
-        return RED_INDEX;
+        return AMB_INDEX;
         break;
-    case 'g':
-        return GREEN_INDEX;
+    case 't':
+        return GRN_INDEX;
         break;
-    case 'b':
-        return BLUE_INDEX;
+    case 'y':
+        return BLU_INDEX;
+        break;
+    case 'u':
+        return RYL_INDEX;
         break;
     default:
         return -1;
