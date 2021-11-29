@@ -8,7 +8,7 @@ t_cmd cmd_buffer;  //buffer per il comando
 t_led led_buffer;  //buffer per riempire info led
 uint8_t power_resolution = 12;  //risoluzione in bit della corrente
 t_led leds[NUMERO_LED];
-int LedSettlingTime = 10;
+int LedSettlingTime = 1000;
 int exp_time = 10000;
 int ReadoutTime = 1000;
 

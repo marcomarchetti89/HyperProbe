@@ -102,12 +102,13 @@ void end_init(){
         delay(500/i);
     }
     //accensione a giro dei led
-    for (size_t i = 0; i < NUMERO_LED; i++){
-        analogWrite(leds[i].pin, power_logic(20));
-        delay(300);
-        analogWrite(leds[i].pin, power_logic(0));
+    for (size_t j = 1; j < 10; j++){
+        for (size_t i = 0; i < NUMERO_LED; i++){
+            analogWrite(leds[i].pin, power_logic(100));
+            delay(200/j);
+            analogWrite(leds[i].pin, power_logic(0));
+        }
     }
-    
 }
 
 
@@ -133,17 +134,17 @@ void esegui_comando(t_cmd* command_ptr){
         break;
     case 'f':
         digitalWrite(PIN_CAMERA, HIGH);
-        analogWrite(PIN_FRD_LED, power_logic(100));
+        analogWrite(PIN_BLU_LED, power_logic(100));
         delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_FRD_LED, power_logic(60));
+        analogWrite(PIN_BLU_LED, power_logic(95));
         delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_FRD_LED, power_logic(30));
+        analogWrite(PIN_BLU_LED, power_logic(90));
         delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_FRD_LED, power_logic(15));
+        analogWrite(PIN_BLU_LED, power_logic(85));
         delayMicroseconds(command_ptr->value);
         digitalWrite(PIN_CAMERA, LOW);
         delayMicroseconds(1);
-        analogWrite(PIN_FRD_LED, power_logic(0));
+        analogWrite(PIN_BLU_LED, power_logic(0));
         break;
     default: 
         Serial.println("comando non presente");
@@ -250,9 +251,9 @@ void update_leds(){
 
 void acquisition(){
     set_all_leds(0);
-    delayMicroseconds(1000000);
+    delayMicroseconds(1000);
     for (size_t i = 0; i < NUMERO_LED; i++){
-            analogWrite( (int)leds[i].pin, power_logic(leds[i].actual_power));
+            analogWrite( (int)leds[i].pin, power_logic(leds[i].acquisition_power));
             delayMicroseconds(LedSettlingTime);
             takePhoto();
             analogWrite( (int)leds[i].pin, power_logic(0));
