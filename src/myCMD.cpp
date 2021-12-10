@@ -37,12 +37,14 @@ void init_PINS(){
     //inizializzazione led builtin
     pinMode(LED_BUILTIN, OUTPUT);
     pinMode(PIN_CAMERA, OUTPUT);
+    pinMode(PIN_CAMERA2, OUTPUT);
 }
 
 void init_LED(){  
     //far red
     leds[FRD_INDEX].letter = 'q';
     leds[FRD_INDEX].state = false;
+    leds[FRD_INDEX].acq = true;
     leds[FRD_INDEX].pin = PIN_FRD_LED;
     leds[FRD_INDEX].actual_power = 0;
     leds[FRD_INDEX].acquisition_power = 0;
@@ -50,6 +52,7 @@ void init_LED(){
     //deep red
     leds[DRD_INDEX].letter = 'w';
     leds[DRD_INDEX].state = false;
+    leds[DRD_INDEX].acq = true;
     leds[DRD_INDEX].pin = PIN_DRD_LED;
     leds[DRD_INDEX].actual_power = 0;
     leds[DRD_INDEX].acquisition_power = 0;
@@ -57,6 +60,7 @@ void init_LED(){
     //red-orange
     leds[RNG_INDEX].letter = 'e';
     leds[RNG_INDEX].state = false;
+    leds[RNG_INDEX].acq = true;
     leds[RNG_INDEX].pin = PIN_RNG_LED;
     leds[RNG_INDEX].actual_power = 0;
     leds[RNG_INDEX].acquisition_power = 0;
@@ -64,6 +68,7 @@ void init_LED(){
     //amber
     leds[AMB_INDEX].letter = 'r';
     leds[AMB_INDEX].state = false;
+    leds[AMB_INDEX].acq = true;
     leds[AMB_INDEX].pin = PIN_AMB_LED;
     leds[AMB_INDEX].actual_power = 0;
     leds[AMB_INDEX].acquisition_power = 0;
@@ -71,6 +76,7 @@ void init_LED(){
     //green
     leds[GRN_INDEX].letter = 't';
     leds[GRN_INDEX].state = false;
+    leds[GRN_INDEX].acq = true;
     leds[GRN_INDEX].pin = PIN_GRN_LED;
     leds[GRN_INDEX].actual_power = 0;
     leds[GRN_INDEX].acquisition_power = 0;
@@ -78,6 +84,7 @@ void init_LED(){
     //blue
     leds[BLU_INDEX].letter = 'y';
     leds[BLU_INDEX].state = false;
+    leds[BLU_INDEX].acq = true;
     leds[BLU_INDEX].pin = PIN_BLU_LED;
     leds[BLU_INDEX].actual_power = 0;
     leds[BLU_INDEX].acquisition_power = 0;
@@ -85,6 +92,7 @@ void init_LED(){
     //royal blue
     leds[RYL_INDEX].letter = 'u';
     leds[RYL_INDEX].state = false;
+    leds[RYL_INDEX].acq = true;
     leds[RYL_INDEX].pin = PIN_RYL_LED;
     leds[RYL_INDEX].actual_power = 0;
     leds[RYL_INDEX].acquisition_power = 0;
@@ -149,6 +157,9 @@ void esegui_comando(t_cmd* command_ptr){
     case 'g':
         acquisition2(command_ptr->value);
         break;
+    case 'h':
+        acq_period = command_ptr->value;
+        break;
     default: 
         Serial.println("comando non presente");
         break;
@@ -177,6 +188,12 @@ void set_LED(char nome_LED, int power){
     }
     else if(power == 240){
         turn_ON_LED(nome_LED);
+    }
+    else if(power == 241){
+        leds[led_letter2index(nome_LED)].acq = false;
+    }
+    else if(power == 242){
+        leds[led_letter2index(nome_LED)].acq = true;
     }
     else{
     }   
@@ -256,11 +273,13 @@ void acquisition(){
     set_all_leds(0);
     delayMicroseconds(1000);
     for (int i = 0; i < NUMERO_LED; i++){
+        if (leds[i].acq == true){
             analogWrite( (int)leds[i].pin, power_logic(leds[i].acquisition_power));
             delayMicroseconds(LedSettlingTime);
             takePhoto();
             analogWrite( (int)leds[i].pin, power_logic(0));
             delayMicroseconds(ReadoutTime);
+        }
     }
 }
 
@@ -276,7 +295,10 @@ void takePhoto(){
 void acquisition2(int photobuffer){
     set_all_leds(0);
     delayMicroseconds(10000);
-    for (size_t i = 0; i < photobuffer; i++){
-            acquisition();    
+    for (int i = 0; i < photobuffer; i++){
+            uint32_t time = micros();
+            acquisition(); 
+            while (micros()-time < acq_period){
+            }
             }
 }

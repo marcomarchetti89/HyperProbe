@@ -35,6 +35,7 @@ typedef struct {
 typedef struct {
     char letter;
     bool state;
+    bool acq;
     uint8_t pin;
     int actual_power;
     int acquisition_power;
@@ -47,6 +48,7 @@ extern t_led leds[]; //vettore dei led
 extern int LedSettlingTime;
 extern int exp_time;
 extern int ReadoutTime;
+extern uint32_t acq_period;
 
 //PINS
 extern const uint8_t PIN_PWR_12V;   //da connettere al rele da montere al posto dell'interruttore

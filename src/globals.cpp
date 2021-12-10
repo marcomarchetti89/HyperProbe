@@ -11,6 +11,7 @@ t_led leds[NUMERO_LED];
 int LedSettlingTime = 1000;
 int exp_time = 10000;
 int ReadoutTime = 1000;
+uint32_t acq_period = 100000;
 
 //PINS
 const uint8_t PIN_PWR_12V = 10;      //da connettere al rele
