@@ -146,6 +146,9 @@ void esegui_comando(t_cmd* command_ptr){
         delayMicroseconds(1);
         analogWrite(PIN_BLU_LED, power_logic(0));
         break;
+    case 'g':
+        acquisition2(command_ptr->value);
+        break;
     default: 
         Serial.println("comando non presente");
         break;
@@ -252,7 +255,7 @@ void update_leds(){
 void acquisition(){
     set_all_leds(0);
     delayMicroseconds(1000);
-    for (size_t i = 0; i < NUMERO_LED; i++){
+    for (int i = 0; i < NUMERO_LED; i++){
             analogWrite( (int)leds[i].pin, power_logic(leds[i].acquisition_power));
             delayMicroseconds(LedSettlingTime);
             takePhoto();
@@ -263,9 +266,17 @@ void acquisition(){
 
 void takePhoto(){
     digitalWriteFast(PIN_CAMERA, HIGH);
+    digitalWriteFast(PIN_CAMERA2, HIGH);
     delayMicroseconds(exp_time);
     digitalWriteFast(PIN_CAMERA, LOW);
+    digitalWriteFast(PIN_CAMERA2, LOW);
 }
 
 
-
+void acquisition2(int photobuffer){
+    set_all_leds(0);
+    delayMicroseconds(10000);
+    for (size_t i = 0; i < photobuffer; i++){
+            acquisition();    
+            }
+}

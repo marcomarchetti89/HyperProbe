@@ -51,5 +51,6 @@ void acquisition();
 //trigger camera 
 void takePhoto();
 
-
+//trigger sequenza di n immagini con accensione rosso-giallo-verde
+void acquisition2(int photobuffer);
 #endif

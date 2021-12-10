@@ -22,6 +22,7 @@ const uint8_t PIN_GRN_LED = 15;      //pwm led green
 const uint8_t PIN_BLU_LED = 14;      //pwm led blue
 const uint8_t PIN_RYL_LED = 29;      //pwm led royal blue
 const uint8_t PIN_CAMERA = 4;        //to trigger the camera
+const uint8_t PIN_CAMERA2 = 3;       //to monitor camera trigger
 const uint8_t PIN_START = 24;        //to start acquisition
 
 

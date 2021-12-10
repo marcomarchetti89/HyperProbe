@@ -57,7 +57,8 @@ extern const uint8_t PIN_AMB_LED;      //pwm led amber
 extern const uint8_t PIN_GRN_LED;      //pwm led green
 extern const uint8_t PIN_BLU_LED;      //pwm led blue
 extern const uint8_t PIN_RYL_LED;      //pwm led royal blue
-extern const uint8_t PIN_CAMERA;    //pin trigger camera, al momento libero      
-extern const uint8_t PIN_START;     //pin interruttore fisico a filo
+extern const uint8_t PIN_CAMERA;    //pin trigger camera
+extern const uint8_t PIN_CAMERA2;    //pin trigger camera      
+extern const uint8_t PIN_START;     //pin interruttore fisico a filo, non usato
 
 #endif
