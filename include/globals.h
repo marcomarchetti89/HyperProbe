@@ -7,7 +7,7 @@
 
 /*lo definisco costante perché poi crerò un array di led
 e se è variabile devo mallocare la memoria*/
-#define NUMERO_LED 7
+#define NUMERO_LED 8
 #define FRD_INDEX 0
 #define DRD_INDEX 1
 #define RNG_INDEX 2
@@ -15,6 +15,7 @@ e se è variabile devo mallocare la memoria*/
 #define GRN_INDEX 4
 #define BLU_INDEX 5
 #define RYL_INDEX 6
+#define VLT_INDEX 7
 
 extern const uint8_t PIN_FRD_LED;      //pwm led far led
 extern const uint8_t PIN_DRD_LED;      //pwm led deep red
@@ -23,6 +24,7 @@ extern const uint8_t PIN_AMB_LED;      //pwm led amber
 extern const uint8_t PIN_GRN_LED;      //pwm led green
 extern const uint8_t PIN_BLU_LED;      //pwm led blue
 extern const uint8_t PIN_RYL_LED;      //pwm led royal blue
+extern const uint8_t PIN_VLT_LED;      //pwm led violet
 
 
 //definizione del tipo comando = lettera + intero
@@ -59,6 +61,7 @@ extern const uint8_t PIN_AMB_LED;      //pwm led amber
 extern const uint8_t PIN_GRN_LED;      //pwm led green
 extern const uint8_t PIN_BLU_LED;      //pwm led blue
 extern const uint8_t PIN_RYL_LED;      //pwm led royal blue
+extern const uint8_t PIN_VLT_LED;      //pwm led royal blue
 extern const uint8_t PIN_CAMERA;    //pin trigger camera
 extern const uint8_t PIN_CAMERA2;    //pin trigger camera      
 extern const uint8_t PIN_START;     //pin interruttore fisico a filo, non usato

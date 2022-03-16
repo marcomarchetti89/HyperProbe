@@ -14,6 +14,7 @@ void init_PINS(){
     pinMode(PIN_GRN_LED, OUTPUT );
     pinMode(PIN_BLU_LED, OUTPUT );
     pinMode(PIN_RYL_LED, OUTPUT );
+    pinMode(PIN_VLT_LED, OUTPUT );
     
     //set frequenza del pwm
     analogWriteFrequency(PIN_FRD_LED, PWM_frequency); 
@@ -23,6 +24,7 @@ void init_PINS(){
     analogWriteFrequency(PIN_GRN_LED, PWM_frequency); 
     analogWriteFrequency(PIN_BLU_LED, PWM_frequency); 
     analogWriteFrequency(PIN_RYL_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_VLT_LED, PWM_frequency); 
 
     //set frequenza del pwm
     analogWriteResolution(power_resolution); 
@@ -96,6 +98,14 @@ void init_LED(){
     leds[RYL_INDEX].pin = PIN_RYL_LED;
     leds[RYL_INDEX].actual_power = 0;
     leds[RYL_INDEX].acquisition_power = 0;
+
+    //violet
+    leds[RYL_INDEX].letter = 'i';
+    leds[RYL_INDEX].state = false;
+    leds[RYL_INDEX].acq = true;
+    leds[RYL_INDEX].pin = PIN_VLT_LED;
+    leds[RYL_INDEX].actual_power = 0;
+    leds[RYL_INDEX].acquisition_power = 0;
     
     //inizializzo power a 0
     set_all_leds(0);
@@ -129,6 +139,7 @@ void esegui_comando(t_cmd* command_ptr){
     case 't':
     case 'y':
     case 'u':
+    case 'i':
         set_LED(command_ptr->command, command_ptr->value);
         break;
     case 'a':
@@ -138,6 +149,8 @@ void esegui_comando(t_cmd* command_ptr){
         exp_time = command_ptr->value;
         break;
     case 'd':
+        set_all_leds(0);
+        delayMicroseconds(10000);
         acquisition();
         break;
     case 'f':
@@ -155,6 +168,8 @@ void esegui_comando(t_cmd* command_ptr){
         analogWrite(PIN_BLU_LED, power_logic(0));
         break;
     case 'g':
+        set_all_leds(0);
+        delayMicroseconds(10000);
         acquisition2(command_ptr->value);
         break;
     case 'h':
@@ -236,6 +251,9 @@ int led_letter2index(char nome_LED){
     case 'u':
         return RYL_INDEX;
         break;
+    case 'i':
+        return VLT_INDEX;
+        break;
     default:
         return -1;
         break;
@@ -270,8 +288,7 @@ void update_leds(){
 
 
 void acquisition(){
-    set_all_leds(0);
-    delayMicroseconds(1000);
+    takePhoto();
     for (int i = 0; i < NUMERO_LED; i++){
         if (leds[i].acq == true){
             analogWrite( (int)leds[i].pin, power_logic(leds[i].acquisition_power));
@@ -293,8 +310,6 @@ void takePhoto(){
 
 
 void acquisition2(int photobuffer){
-    set_all_leds(0);
-    delayMicroseconds(10000);
     for (int i = 0; i < photobuffer; i++){
             uint32_t time = micros();
             acquisition(); 
