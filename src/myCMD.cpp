@@ -100,12 +100,12 @@ void init_LED(){
     leds[RYL_INDEX].acquisition_power = 0;
 
     //violet
-    leds[RYL_INDEX].letter = 'i';
-    leds[RYL_INDEX].state = false;
-    leds[RYL_INDEX].acq = true;
-    leds[RYL_INDEX].pin = PIN_VLT_LED;
-    leds[RYL_INDEX].actual_power = 0;
-    leds[RYL_INDEX].acquisition_power = 0;
+    leds[VLT_INDEX].letter = 'i';
+    leds[VLT_INDEX].state = false;
+    leds[VLT_INDEX].acq = true;
+    leds[VLT_INDEX].pin = PIN_VLT_LED;
+    leds[VLT_INDEX].actual_power = 0;
+    leds[VLT_INDEX].acquisition_power = 0;
     
     //inizializzo power a 0
     set_all_leds(0);
