@@ -12,6 +12,7 @@ void init_PINS(){
     pinMode(PIN_RNG_LED, OUTPUT );
     pinMode(PIN_AMB_LED, OUTPUT );
     pinMode(PIN_GRN_LED, OUTPUT );
+    pinMode(PIN_CYN_LED, OUTPUT );
     pinMode(PIN_BLU_LED, OUTPUT );
     pinMode(PIN_RYL_LED, OUTPUT );
     pinMode(PIN_VLT_LED, OUTPUT );
@@ -22,6 +23,7 @@ void init_PINS(){
     analogWriteFrequency(PIN_RNG_LED, PWM_frequency); 
     analogWriteFrequency(PIN_AMB_LED, PWM_frequency); 
     analogWriteFrequency(PIN_GRN_LED, PWM_frequency); 
+    analogWriteFrequency(PIN_CYN_LED, PWM_frequency); 
     analogWriteFrequency(PIN_BLU_LED, PWM_frequency); 
     analogWriteFrequency(PIN_RYL_LED, PWM_frequency); 
     analogWriteFrequency(PIN_VLT_LED, PWM_frequency); 
@@ -83,24 +85,32 @@ void init_LED(){
     leds[GRN_INDEX].actual_power = 0;
     leds[GRN_INDEX].acquisition_power = 0;
 
+    //cyan
+    leds[CYN_INDEX].letter = 'y';
+    leds[CYN_INDEX].state = false;
+    leds[CYN_INDEX].acq = true;
+    leds[CYN_INDEX].pin = PIN_CYN_LED;
+    leds[CYN_INDEX].actual_power = 0;
+    leds[CYN_INDEX].acquisition_power = 0;
+
     //blue
-    leds[BLU_INDEX].letter = 'y';
+    leds[BLU_INDEX].letter = 'u';
     leds[BLU_INDEX].state = false;
     leds[BLU_INDEX].acq = true;
     leds[BLU_INDEX].pin = PIN_BLU_LED;
     leds[BLU_INDEX].actual_power = 0;
     leds[BLU_INDEX].acquisition_power = 0;
 
-    //royal blue
-    leds[RYL_INDEX].letter = 'u';
+    //royal blu
+    leds[RYL_INDEX].letter = 'i';
     leds[RYL_INDEX].state = false;
     leds[RYL_INDEX].acq = true;
     leds[RYL_INDEX].pin = PIN_RYL_LED;
     leds[RYL_INDEX].actual_power = 0;
-    leds[RYL_INDEX].acquisition_power = 0;
+    leds[VLT_INDEX].acquisition_power = 0;
 
     //violet
-    leds[VLT_INDEX].letter = 'i';
+    leds[VLT_INDEX].letter = 'o';
     leds[VLT_INDEX].state = false;
     leds[VLT_INDEX].acq = true;
     leds[VLT_INDEX].pin = PIN_VLT_LED;
@@ -140,6 +150,7 @@ void esegui_comando(t_cmd* command_ptr){
     case 'y':
     case 'u':
     case 'i':
+    case 'o':
         set_LED(command_ptr->command, command_ptr->value);
         break;
     case 'a':
@@ -150,22 +161,28 @@ void esegui_comando(t_cmd* command_ptr){
         break;
     case 'd':
         set_all_leds(0);
-        delayMicroseconds(10000);
+        delayMicroseconds(20000);
         acquisition();
         break;
     case 'f':
-        digitalWrite(PIN_CAMERA, HIGH);
-        analogWrite(PIN_BLU_LED, power_logic(100));
-        delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_BLU_LED, power_logic(95));
-        delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_BLU_LED, power_logic(90));
-        delayMicroseconds(command_ptr->value);
-        analogWrite(PIN_BLU_LED, power_logic(85));
-        delayMicroseconds(command_ptr->value);
-        digitalWrite(PIN_CAMERA, LOW);
-        delayMicroseconds(1);
-        analogWrite(PIN_BLU_LED, power_logic(0));
+        for (size_t i = 0; i < 50; i++){
+            analogWrite( (int)leds[2].pin, power_logic(leds[2].acquisition_power));
+            delayMicroseconds(LedSettlingTime);
+            takePhoto();
+            analogWrite( (int)leds[2].pin, power_logic(0));
+            delayMicroseconds(ReadoutTime);
+            analogWrite( (int)leds[3].pin, power_logic(leds[3].acquisition_power));
+            delayMicroseconds(LedSettlingTime);
+            takePhoto();
+            analogWrite( (int)leds[3].pin, power_logic(0));
+            delayMicroseconds(ReadoutTime);
+            analogWrite( (int)leds[5].pin, power_logic(leds[5].acquisition_power));
+            delayMicroseconds(LedSettlingTime);
+            takePhoto();
+            analogWrite( (int)leds[5].pin, power_logic(0));
+            delayMicroseconds(ReadoutTime);
+            delayMicroseconds(10000);
+        }
         break;
     case 'g':
         set_all_leds(0);
@@ -175,6 +192,8 @@ void esegui_comando(t_cmd* command_ptr){
     case 'h':
         acq_period = command_ptr->value;
         break;
+    case 'j':
+        takePhoto();
     default: 
         Serial.println("comando non presente");
         break;
@@ -246,12 +265,15 @@ int led_letter2index(char nome_LED){
         return GRN_INDEX;
         break;
     case 'y':
-        return BLU_INDEX;
+        return CYN_INDEX;
         break;
     case 'u':
-        return RYL_INDEX;
+        return BLU_INDEX;
         break;
     case 'i':
+        return RYL_INDEX;
+        break;
+    case 'o':
         return VLT_INDEX;
         break;
     default:
