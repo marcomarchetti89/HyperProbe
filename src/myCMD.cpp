@@ -229,8 +229,10 @@ void set_LED(char nome_LED, int power){
     else if(power == 242){
         leds[led_letter2index(nome_LED)].acq = true;
     }
-    else{
-    }   
+    else if(power >= 256 && power < 512){
+        leds[led_letter2index(nome_LED)].acquisition_power = power;
+    }
+    else{}
 }
 
 uint8_t led_letter2pin(char nome_LED){
@@ -243,7 +245,14 @@ uint8_t led_letter2pin(char nome_LED){
 
 int power_logic(int power){
     double res = pow(2, power_resolution);
-    int pwm_power = floor(res - power * res / 120);
+    int pwm_power = 0;
+    if (power > 0 && power < 120){
+        pwm_power = floor(res - power * res / 120);
+    }
+    else if(power >= 256 && power < 512){
+        pwm_power = power - res;
+    }
+    else{}
     return pwm_power;
 }
 
